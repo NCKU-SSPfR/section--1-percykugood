@@ -45,7 +45,7 @@ async def test_integration():
     #print(game_state)
     await reset_request()
     #print(game_state)
-    for i in range(5):
+    for _ in range(5):
         await move_request("down")
         #print(game_state)
     assert game_state["current_position"] == [1,5]

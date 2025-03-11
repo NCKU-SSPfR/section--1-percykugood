@@ -13,7 +13,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 複製應用程式的源代碼到工作目錄
-COPY . .
+COPY src/ /app/src
+
+COPY tests/ /app/tests
 
 # 暴露應用程式的端口
 EXPOSE 8000

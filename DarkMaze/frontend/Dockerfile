@@ -1,21 +1,15 @@
-# 使用 Python 3.11 作為基礎映像
 FROM python:3.11
 
-# 設置工作目錄
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+
 WORKDIR /app
 
-# 複製 requirements.txt 到工作目錄
-COPY requirements.txt .
+COPY --chown=appuser:appgroup ./requirements.txt /app/requirements.txt
 
-# 安裝 Python 依賴包
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# 複製應用程式的源代碼到工作目錄
-COPY requirements.txt /app/requirements.txt
-COPY src/ /app/src
+COPY --chown=appuser:appgroup ./src /app/src
 
-# 暴露應用程式的端口
-EXPOSE 8088
+USER appuser
 
-# 運行應用程式
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8088", "--reload"]
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

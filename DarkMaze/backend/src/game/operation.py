@@ -5,20 +5,20 @@ def move_location(game_state, direction):
     if game_over(game_state["health"]):
         return game_state
     
-    map_width, map_height = game_state["map_size"]
     x, y = game_state["current_position"]
     
-    # Update position based on direction
-    if direction == "up" and y > 0:
-        y -= 1
-    elif direction == "down" and y < map_height - 1:
-        y += 1
-    elif direction == "left" and x > 0:
-        x -= 1
-    elif direction == "right" and x < map_width - 1:
-        x += 1
+    DIRECTIONS = {
+        "up": (0, -1),
+        "down": (0, 1),
+        "left": (-1, 0),
+        "right": (1, 0),
+    }
 
-    new_position = [x, y]
+    if direction not in DIRECTIONS:
+        return game_state
+
+    dx, dy = DIRECTIONS[direction]
+    new_position = [x + dx, y + dy]
 
     if hit_obstacle(new_position, game_state["current_level_name"]):
         # Update health
